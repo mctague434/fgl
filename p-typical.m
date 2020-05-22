@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-p=3; g=Araki; gen=Hazewinkel;
+p=2; g=Araki; gen=Hazewinkel;
 
 
 BPl[0,_.,_.,_.] = 1;
@@ -43,8 +43,7 @@ w[K_List,nvars_Integer,p_Integer,gen_Symbol] :=
                If[gen===Hazewinkel, p^Length[J], II[K]/II[I]]
                w[J,nvars,p,gen][Sequence@@slotvars]^p^(Plus@@I)]]
 	         /@ Range[0,Length[K]-1]))},
-      w[K,nvars,p,gen]=formula&; formula&
-    ]];
+      w[K,nvars,p,gen]=formula&; formula& ]];
 
 
 BPSumSimplify[ord_Integer,k_Integer:Infinity,d_Symbol:d] :=
