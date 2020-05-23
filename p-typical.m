@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-p=2; g=Araki; gen=Hazewinkel;
+p=2; gen=Araki; gen=Hazewinkel;
 
 
 BPl[0,_.,_.,_.] = 1;
