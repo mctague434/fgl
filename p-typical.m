@@ -16,7 +16,7 @@ expBP[ord_Integer,k_,p_Integer,gen_Symbol] := expBP[ord,k,p,gen] =
   Function[d,Evaluate[Map[Simplify,InverseSeries[logBP[ord,k,p,gen][d]],{2}]]];
 fglBP[ord_Integer,k_Integer:Infinity,d_Symbol:d] := fglBP[ord,k,d,p,gen];
 fglBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol]:=
-  fglBP[ord,k,d,p,gen]=Function[{x,y},Evaluate[Module[{z}, Map[Simplify, 
+  fglBP[ord,k,d,p,gen]=Function[{x,y},Evaluate[Module[{z}, Map[Expand, 
      ComposeSeries[expBP[ord,k,p,gen][d], 
        ComposeSeries[logBP[ord,k,p,gen][z],x d+O[d]^ord] + 
        ComposeSeries[logBP[ord,k,p,gen][z],y d+O[d]^ord]], {2}]]]];
