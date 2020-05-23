@@ -60,6 +60,6 @@ BPSumToOrder[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol][terms__]:=
   Map[Expand,First[NestWhile[BPSumSimplify[ord,k,d,p,gen],{terms}d,Length[#]>1&],{2}]];
 
 
-pSeriesBP[ord_Integer,k_Integer:Infinity]:=pSeriesBP[ord,k,p,gen];
+pSeriesBP[ord_Integer,k_Integer:Infinity] := pSeriesBP[ord,k,p,gen];
 pSeriesBP[ord_Integer,k_,p_Integer,gen_Symbol][x_] :=
   Module[{d},Normal[BPSumToOrder[ord,k,d,p,gen]@@Table[x,p]]/.d->1]+O[x]^ord;
