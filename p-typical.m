@@ -4,8 +4,8 @@ p=2; gen=Araki; gen=Hazewinkel;
 
 
 BPl[0,_.,_.,_.] = 1;
-BPl[n_,k_Integer:Infinity] := BPl[n,k,p,gen];
-BPl[n_,k_,p_Integer,gen_Symbol] := BPl[n,k,p,gen] =
+BPl[n_Integer,k_Integer:Infinity] := BPl[n,k,p,gen];
+BPl[n_Integer,k_Integer,p_Integer,gen_Symbol] := BPl[n,k,p,gen] =
   Simplify[1/(p-If[gen===Araki,p^p^n,0])
     Sum[BPl[i,k,p,gen] Subscript[v,n-i]^p^i, {i,Max[n-k,0],n-1}] /. Subscript[v,0]->p ];
 logBP[ord_Integer,k_Integer:Infinity] := logBP[ord,k,p,gen];
