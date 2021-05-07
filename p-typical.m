@@ -48,7 +48,7 @@ w[K_List,nvars_Integer,p_Integer,gen_Symbol] :=
 
 BPSumSimplify[ord_Integer,k_Integer:Infinity,d_Symbol:d] :=
   BPSumSimplify[ord,k,d,p,gen];
-BPSumSimplify[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol][terms_List] :=
+BPSumSimplify[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms_List] :=
   Cases[ Map[Simplify, vI[#](w[#,Length[terms],p,gen]@@terms) + O[d]^ord, {2}]& /@
    Flatten[Permutations/@IntegerPartitions[#,All,Range[1,Min[k,#]]]&/@Range[0,Log[p,ord]],2],
    Except[O[d]^ord]]
