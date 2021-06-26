@@ -8,10 +8,10 @@ BPl[n_Integer,k:(_Integer|Infinity):Infinity] := BPl[n,k,p,gen];
 BPl[n_Integer,k:(_Integer|Infinity),p_Integer,gen_Symbol] := BPl[n,k,p,gen] =
   Simplify[1/(p-If[gen===Araki,p^p^n,0])
     Sum[BPl[i,k,p,gen] Subscript[v,n-i]^p^i, {i,Max[n-k,0],n-1}] /. Subscript[v,0]->p ];
-logBP[ord_Integer,k_Integer:Infinity] := logBP[ord,k,p,gen];
+logBP[ord_Integer,k:(_Integer|Infinity):Infinity] := logBP[ord,k,p,gen];
 logBP[ord_Integer,k_,p_Integer,gen_Symbol] := logBP[ord,k,p,gen] =
   Function[d,Evaluate[Sum[BPl[n,k,p,gen] d^p^n, {n, 0, Log[p, ord]}] + O[d]^ord]];
-expBP[ord_Integer,k_Integer:Infinity] := expBP[ord,k,p,gen];
+expBP[ord_Integer,k:(_Integer|Infinity):Infinity] := expBP[ord,k,p,gen];
 expBP[ord_Integer,k_,p_Integer,gen_Symbol] := expBP[ord,k,p,gen] =
   Function[d,Evaluate[Map[Simplify,InverseSeries[logBP[ord,k,p,gen][d]],{2}]]];
 fglBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] := fglBP[ord,k,d,p,gen];
@@ -46,7 +46,7 @@ w[K_List,nvars_Integer,p_Integer,gen_Symbol] :=
       w[K,nvars,p,gen]=formula&; formula& ]];
 
 
-BPSumSimplify[ord_Integer,k_Integer:Infinity,d_Symbol:d] :=
+BPSumSimplify[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
   BPSumSimplify[ord,k,d,p,gen];
 BPSumSimplify[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms_List] :=
   Cases[ Map[Simplify, vI[#](w[#,Length[terms],p,gen]@@terms) + O[d]^ord, {2}]& /@
