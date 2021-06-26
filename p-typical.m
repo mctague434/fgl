@@ -14,13 +14,13 @@ logBP[ord_Integer,k_,p_Integer,gen_Symbol] := logBP[ord,k,p,gen] =
 expBP[ord_Integer,k_Integer:Infinity] := expBP[ord,k,p,gen];
 expBP[ord_Integer,k_,p_Integer,gen_Symbol] := expBP[ord,k,p,gen] =
   Function[d,Evaluate[Map[Simplify,InverseSeries[logBP[ord,k,p,gen][d]],{2}]]];
-fglBP[ord_Integer,k_Integer:Infinity,d_Symbol:d] := fglBP[ord,k,d,p,gen];
+fglBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] := fglBP[ord,k,d,p,gen];
 fglBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol]:=
   fglBP[ord,k,d,p,gen]=Function[{x,y},Evaluate[Module[{z}, Map[Expand, 
      ComposeSeries[expBP[ord,k,p,gen][d], 
        ComposeSeries[logBP[ord,k,p,gen][z],x d+O[d]^ord] + 
        ComposeSeries[logBP[ord,k,p,gen][z],y d+O[d]^ord]], {2}]]]];
-pSerBP[ord_Integer,k_Integer:Infinity,d_Symbol:d]:=pSerBP[ord,k,d,p,gen];
+pSerBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d]:=pSerBP[ord,k,d,p,gen];
 pSerBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol][x_]:=
   Module[{z}, With[{xPlus=(Normal[fglBP[ord,k,d,p,gen][x,z]]/.d->1)+O[z]^ord},
     Map[Expand,Nest[ComposeSeries[xPlus,#]&,x+O[x]^ord,p-1],{2}]]];
