@@ -57,7 +57,7 @@ BPSumSimplify[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][t
 
 BPSumToOrder[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
   BPSumToOrder[ord,k,d,p,gen];
-BPSumToOrder[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms__]:=
+BPSumToOrder[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms__] :=
   Map[Expand,First[NestWhile[BPSumSimplify[ord,k,d,p,gen],{terms},Length[#]>1&],{2}]];
 
 
