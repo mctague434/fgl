@@ -51,7 +51,7 @@ BPSumSimplify[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
 BPSumSimplify[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms_List] :=
   Cases[Map[Simplify,
 	    vI[#] d^(2(p^(Plus@@#)-1)) (w[#,Length[terms],p,gen]@@terms) + O[d]^ord, {2}]& /@
-   Flatten[Permutations/@IntegerPartitions[#,All,Range[1,Min[k,#]]]&/@Range[0,Log[p,ord/2]],2],
+   Flatten[Permutations/@IntegerPartitions[#,All,Range[1,Min[k,#]]]&/@Range[0,Log[p,1+ord/2]],2],
    Except[O[d]^ord]];
 
 
