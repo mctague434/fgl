@@ -15,13 +15,13 @@ expBP[ord_Integer,k:(_Integer|Infinity):Infinity] := expBP[ord,k,p,gen];
 expBP[ord_Integer,k_,p_Integer,gen_Symbol] := expBP[ord,k,p,gen] =
   Function[d,Evaluate[Map[Simplify,InverseSeries[logBP[ord,k,p,gen][d]],{2}]]];
 fglBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] := fglBP[ord,k,d,p,gen];
-fglBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol]:=
+fglBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol] :=
   fglBP[ord,k,d,p,gen]=Function[{x,y},Evaluate[Module[{z}, Map[Expand, 
-     ComposeSeries[expBP[ord,k,p,gen][d], 
-       ComposeSeries[logBP[ord,k,p,gen][z],x d+O[d]^ord] + 
+     ComposeSeries[expBP[ord,k,p,gen][d],
+       ComposeSeries[logBP[ord,k,p,gen][z],x d+O[d]^ord] +
        ComposeSeries[logBP[ord,k,p,gen][z],y d+O[d]^ord]], {2}]]]];
 pSerBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d]:=pSerBP[ord,k,d,p,gen];
-pSerBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol][x_]:=
+pSerBP[ord_Integer,k_,d_Symbol,p_Integer,gen_Symbol][x_] :=
   Module[{z}, With[{xPlus=(Normal[fglBP[ord,k,d,p,gen][x,z]]/.d->1)+O[z]^ord},
     Map[Expand,Nest[ComposeSeries[xPlus,#]&,x+O[x]^ord,p-1],{2}]]];
 
@@ -48,19 +48,27 @@ w[K_List,nvars_Integer,p_Integer,gen_Symbol] :=
 
 BPSumSimplify[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
   BPSumSimplify[ord,k,d,p,gen];
-BPSumSimplify[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms_List] :=
-  Cases[Map[Simplify,
-	    vI[#] d^(2(p^(Plus@@#)-1)) (w[#,Length[terms],p,gen]@@terms) + O[d]^ord, {2}]& /@
-   Flatten[Permutations/@IntegerPartitions[#,All,Range[1,Min[k,#]]]&/@Range[0,Log[p,1+ord/2]],2],
-   Except[O[d]^ord]];
+BPSumSimplify[ord_Integer,k:(_Integer|Infinity),
+	      d_Symbol,p_Integer,gen_Symbol][terms_List] :=
+  With[{mintermvord = Min[Exponent[#,d,Min]& /@ terms]},
+    Cases[
+     Map[Simplify, vI[#] d^(2(p^(Plus@@#)-1))
+                   (w[#,Length[terms],p,gen]@@terms) + O[d]^ord, {2}]& /@
+           Flatten[Permutations/@IntegerPartitions[#,All,Range[1,Min[k,#]]]&/@
+                                     Range[0,Log[p,(1+ord)/(2+mintermvord)]],2],
+     Except[O[d]^ord]]];
 
 
 BPSumToOrder[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
-  BPSumToOrder[ord,k,d,p,gen];
-BPSumToOrder[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][terms__] :=
-  Map[Expand,First[NestWhile[BPSumSimplify[ord,k,d,p,gen],{terms},Length[#]>1&],{2}]];
+       BPSumToOrder[ord,k,d,p,gen];
+BPSumToOrder[ord_Integer,k:(_Integer|Infinity),
+	     d_Symbol,p_Integer,gen_Symbol][terms__] :=
+  Map[Expand,First[NestWhile[BPSumSimplify[ord,k,d,p,gen], {terms},
+			     Length[#]>1&],{2}]];
 
 
-pSeriesBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] := pSeriesBP[ord,k,d,p,gen];
-pSeriesBP[ord_Integer,k:(_Integer|Infinity),d_Symbol,p_Integer,gen_Symbol][x_] :=
+pSeriesBP[ord_Integer,k:(_Integer|Infinity):Infinity,d_Symbol:d] :=
+  pSeriesBP[ord,k,d,p,gen];
+pSeriesBP[ord_Integer,k:(_Integer|Infinity),
+	  d_Symbol,p_Integer,gen_Symbol][x_] :=
   BPSumToOrder[ord,k,d,p,gen]@@Table[x, p];
